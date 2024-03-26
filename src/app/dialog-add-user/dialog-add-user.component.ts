@@ -24,13 +24,13 @@ import {AngularFirestore} from '@angular/fire/compat/firestore';
 })
 export class DialogAddUserComponent {
     user: UserClass = new UserClass();
-    birthDate: Date | undefined;
+    birthDate!: Date;
 
     constructor(private firestore: AngularFirestore) {
     }
 
     saveUser() {
-        // @ts-ignore
+
         this.user.birthDate = this.birthDate.getTime();
         console.log('Current user is:', this.user);
 
