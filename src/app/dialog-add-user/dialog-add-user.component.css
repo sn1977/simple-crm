@@ -1,0 +1,12 @@
+.name-field {
+  display: flex;
+}
+.name-field .input-box {
+  padding-left: 0;
+}
+
+.city-box {
+  display: flex;
+}
+
+/*# sourceMappingURL=dialog-add-user.component.css.map */
