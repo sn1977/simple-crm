@@ -1,12 +1,17 @@
 .name-field {
   display: flex;
 }
-.name-field .input-box {
-  padding-left: 0;
-}
-
 .city-box {
   display: flex;
+}
+
+.btn-user-card {
+  padding-bottom: 24px;
+  padding-left: 24px;
+  gap: 16px;
+}
+.btn-user-card .br-24 {
+  border-radius: 24px;
 }
 
 /*# sourceMappingURL=dialog-add-user.component.css.map */

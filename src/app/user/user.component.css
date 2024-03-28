@@ -4,4 +4,39 @@
   bottom: 56px;
 }
 
+mat-card {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.user-table tr {
+  border-bottom: 1px solid #3F51B5;
+  cursor: pointer;
+}
+.user-table tr:first-child {
+  cursor: unset;
+}
+.user-table tr:first-child:hover {
+  background-color: unset;
+}
+.user-table tr:last-child {
+  border-bottom: 0;
+}
+.user-table tr td {
+  height: 48px;
+}
+.user-table tr:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+.user-table th {
+  color: #3F51B5;
+  font-weight: 500;
+  font-size: 14px;
+  text-align: start;
+}
+
 /*# sourceMappingURL=user.component.css.map */

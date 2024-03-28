@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {provideRouter} from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -17,5 +17,6 @@ export const appConfig: ApplicationConfig = {
       "apiKey":"AIzaSyAqwm-GtDj0ZcEPXAumiC6GeDmGLd7ZHHs",
       "authDomain":"simple-crm-e11ca.firebaseapp.com",
       "messagingSenderId":"214415715397"
-  }))), importProvidersFrom(provideFirestore(() => getFirestore())), importProvidersFrom(provideStorage(() => getStorage()))]
+  }))), importProvidersFrom(provideFirestore(() => getFirestore())), importProvidersFrom(provideStorage(() => getStorage())),],
 };
+

@@ -1,12 +1,15 @@
-import {Component} from '@angular/core';
-import {MatDialogModule} from '@angular/material/dialog';
+import {Component, inject} from '@angular/core';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {UserClass} from '../../models/user.class';
 import {FormsModule} from '@angular/forms';
-import {AngularFirestore} from '@angular/fire/compat/firestore';
+import {Firestore, collection, addDoc} from '@angular/fire/firestore';
+import {MatButton} from '@angular/material/button';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {NgIf} from '@angular/common';
 
 @Component({
     selector: 'app-dialog-add-user',
@@ -17,28 +20,39 @@ import {AngularFirestore} from '@angular/fire/compat/firestore';
         MatFormFieldModule,
         MatIconModule,
         MatDatepickerModule,
-        FormsModule
-     ],
+        FormsModule,
+        MatButton,
+        MatProgressBarModule,
+        NgIf
+    ],
     templateUrl: './dialog-add-user.component.html',
     styleUrl: './dialog-add-user.component.scss'
 })
 export class DialogAddUserComponent {
     user: UserClass = new UserClass();
     birthDate!: Date;
+    loading = false;
 
-    constructor(private firestore: AngularFirestore) {
+    firestore: Firestore = inject(Firestore);
+
+    constructor(public dialogRef: MatDialogRef<DialogAddUserComponent>) {
     }
 
-    saveUser() {
 
-        this.user.birthDate = this.birthDate.getTime();
+    async saveUser() {
+        this.user.birthDate = this.birthDate ? this.birthDate.getTime() : 0;
         console.log('Current user is:', this.user);
+        this.loading = true;
 
-        this.firestore
-            .collection('users')
-            .add(this.user.toJSON())
-            .then((result: any)=> {
-            console.log('Adding user finished', result);
-        });
+        await addDoc(collection(this.firestore, 'users'), this.user.toJSON()).catch(
+            (err: any) => {
+                console.error(err)
+            }
+        ).then(
+            () => {
+                console.log('Adding user finished:', this.user.firstName);
+                this.dialogRef.close();
+                this.loading = false;
+            })
     }
 }
