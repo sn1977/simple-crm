@@ -6,7 +6,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {UserClass} from '../../models/user.class';
 import {FormsModule} from '@angular/forms';
-import {Firestore, collection, addDoc} from '@angular/fire/firestore';
+import {Firestore, collection, addDoc, updateDoc} from '@angular/fire/firestore';
 import {MatButton} from '@angular/material/button';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {NgIf} from '@angular/common';
@@ -44,15 +44,23 @@ export class DialogAddUserComponent {
         console.log('Current user is:', this.user);
         this.loading = true;
 
-        await addDoc(collection(this.firestore, 'users'), this.user.toJSON()).catch(
-            (err: any) => {
-                console.error(err)
-            }
-        ).then(
-            () => {
-                console.log('Adding user finished:', this.user.firstName);
-                this.dialogRef.close();
-                this.loading = false;
-            })
+        const userObj = this.user.toJSON();
+
+        try {
+            // Schritt 1: Speichern des Benutzers
+            const docRef = await addDoc(collection(this.firestore, 'users'), userObj);
+
+            console.log('Adding user finished:', userObj.firstName, 'with ID:', docRef.id);
+
+            // Schritt 2: Aktualisiere das Dokument mit seiner docId
+            await updateDoc(docRef, {docId: docRef.id});
+            console.log(`Document updated with docId: ${docRef.id}`);
+
+        } catch (err) {
+            console.error(err);
+        } finally {
+            this.dialogRef.close();
+            this.loading = false;
+        }
     }
 }

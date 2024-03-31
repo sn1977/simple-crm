@@ -6,7 +6,7 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {DialogAddUserComponent} from '../dialog-add-user/dialog-add-user.component';
 import {UserClass} from '../../models/user.class';
 import {MatCardModule} from '@angular/material/card';
-import {collection, doc, Firestore, onSnapshot} from '@angular/fire/firestore';
+import {collection, Firestore, onSnapshot} from '@angular/fire/firestore';
 import {NgForOf} from '@angular/common';
 import {RouterLink} from '@angular/router';
 
@@ -38,13 +38,7 @@ export class UserComponent {
 
         this.unsubList = onSnapshot(this.usersCollection, (snapshot) => {
             this.allUsers = snapshot.docs.map(doc => doc.data() as UserClass);
-            // console.log(this.allUsers);
-        });
-
-        this.unsubList = onSnapshot(this.usersCollection, (docRef) => {
-            docRef.forEach(singleDoc => {
-                console.log(singleDoc.id, singleDoc.data());
-            });
+            console.log(this.allUsers);
         });
     }
 
@@ -54,9 +48,5 @@ export class UserComponent {
 
     openDialog() {
         this.dialog.open(DialogAddUserComponent);
-    }
-
-    getDocRef(docId: string) {
-        return doc(this.usersCollection, docId);
     }
 }
